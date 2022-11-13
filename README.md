@@ -146,11 +146,12 @@ subnet 192.176.3.0 netmask 255.255.255.0 {
     option broadcast-address 192.176.3.255;
     option domain-name-servers 192.176.2.2;
 }
-``` pada `/etc/dhcp/dhcpd.conf` dan jangan lupa restart `service isc-dhcp-server restart`
+``` 
+pada `/etc/dhcp/dhcpd.conf` dan jangan lupa restart `service isc-dhcp-server restart`
 lalu cek dengan command `ip a` pada client
 
-switch1
+#### switch1 ####
 ![GambarTopologi](image/3.1.png)
-switch2
+#### switch2 ####
 ![GambarTopologi](image/3.2.png)
 
