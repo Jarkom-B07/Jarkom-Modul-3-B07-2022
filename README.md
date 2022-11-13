@@ -7,7 +7,7 @@
 | Ahmad Ibnu Malik Rahman   | 5025201232    |
 
 
-## Pembahasan soal Modul ##
+## Pembahasan soal Modul DHCP ##
 
 ### Nomer 1 ###
 Loid bersama Franky berencana membuat peta tersebut dengan kriteria WISE sebagai DNS Server, Westalis sebagai DHCP Server, Berlint sebagai Proxy Server
@@ -155,3 +155,146 @@ lalu cek dengan command `ip a` pada client
 #### switch2 ####
 ![GambarTopologi](image/3.2.png)
 
+### Nomer 5 ###
+Client mendapatkan DNS dari WISE dan client dapat terhubung dengan internet melalui DNS tersebut.
+
+**Jawab :**
+
+pada setiap client akan mendapatkan DNS dari WISE sehingga diperlukan konfigurasi pada file `/etc/dhcp/dhcpd.conf` dengan isian sebagai berikut
+
+```sh
+option domain-name-servers 10.45.2.2;
+```
+
+melakukan setup pada WISE dengan melakukan editing pada file `/etc/bind/named.conf.options` dan menambahkan isian sebagai berikut :
+
+```sh
+options {
+        directory "/var/cache/bind";
+        forwarders {
+                8.8.8.8;
+                8.8.8.4;
+        };
+        // dnssec-validation auto;
+        allow-query { any; };
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+};
+```
+untuk memastikan code berjalan sesuai dengan aturan maka dilakukann pengecekan dengan melakukan ping pada setiap client :
+- SSS
+  ![gambar5.1](image/5.1.png)
+- Garden
+![gambar5.2](image/5.2.png)
+- KemonoPark
+![gambar5.3](image/5.3.png)
+- NewstonCastle
+![gambar5.4](image/5.4.png)
+- Eden
+  ![gambar5.2](image/5.5.png)
+
+### Nomer 6 ###
+Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 5 menit sedangkan pada client yang melalui Switch3 selama 10 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 115 menit.
+
+**Jawab :**
+
+Pada node Wesalis lakukan perintah sebagai berikut :
+
+- edit file /etc/bind/named.conf.local dengan cara
+  
+    ```
+	nano /etc/bind/named.conf.local
+	```
+- menyesuaikan isi file dengan
+	```
+		subnet 192.176.2.0 netmask 255.255.255.0 {
+		}
+		subnet 192.176.1.0 netmask 255.255.255.0 {
+			...
+			default-lease-time 300;
+			max-lease-time 6900;
+			...
+		}
+		subnet 192.176.3.0 netmask 255.255.255.0 {
+			...
+			option domain-name-servers 192.176.2.2;
+			default-lease-time 600;
+			...
+		}
+	```
+
+### Nomer 8 ###
+Loid dan Franky berencana menjadikan Eden sebagai server untuk pertukaran informasi dengan alamat IP yang tetap dengan IP [prefix IP].3.13
+
+**Jawab :**
+
+Pada node Wesalis lakukan perintah sebagai berikut :
+- edit file /etc/bind/named.conf.local dengan cara
+  
+    ```
+	nano /etc/bind/named.conf.local
+	```
+- manambhakan isi file dengan
+	```
+	host Eden {
+		hardware ethernet 12:41:bf:96:4f:d3;
+		fixed-address 192.176.3.13;
+	}
+	```
+Pada node **Eden** melakukan konfigurasi network configuration sebagai berikut :
+```
+auto eth0
+iface eth0 inet dhcp
+hwaddress ether 12:41:bf:96:4f:d3
+```
+untuk melakukan validasi maka pada node Eden dilakukan pengecekan dengan menggunakan `ip a`, akan muncul hasil sebagai berikut
+![gambat7.1](image/7.1.png)
+
+## Pembahasan soal Modul PROXY Server ##
+
+### Nomer 1 ###
+Client hanya dapat mengakses internet diluar (selain) hari & jam kerja (senin-jumat 08.00 - 17.00) dan hari libur (dapat mengakses 24 jam penuh)
+
+**Jawaban :**
+
+Pada node Berlint lakukan perintah sebagai berikut :
+- edit file /etc/squid/acl.conf dengan cara
+  
+    ```
+	nano /etc/squid/acl.conf
+	```
+- manambhakan isi file dengan
+	```
+	acl AVAILABLE_WORKING time MTWHF 17:01-23:59
+	acl AVAILABLE_WORKING time MTWHF 00:00-07:59
+	acl AVAILABLE_WORKING time AS 00:00-23:59
+	acl jam_kerja time MTWHF 08:00-17:00
+	acl weekend time AS 00:00-23:59
+	```
+- edit file /etc/squid/acl.conf dengan cara
+  
+    ```
+	/etc/squid/squid.conf
+	```
+- manambhakan isi file dengan
+	```
+	include etc/squid/acl.conf
+	http_port 8080
+	visible_hostname Berlint
+	acl SSL_ports port 443
+	acl WORKSITES dstdomain /etc/squid/access.acl
+	http_access deny !SSL_ports
+	http_access allow WORKSITES
+	http_access allow AVAILABLE_WORKING
+	http_access deny all
+	```
+- Melakukan restart service squid dengan ssyntax berikut 
+  ```
+  service squid restart
+  ```
+untuk melakukan validasi kode dilakukan lstesting
+- testing hari kerja
+  
+  ```
+  date --set "6 nov 2022 09:00:00"
+  ```
