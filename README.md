@@ -293,8 +293,45 @@ Pada node Berlint lakukan perintah sebagai berikut :
   service squid restart
   ```
 untuk melakukan validasi kode dilakukan lstesting
-- testing hari kerja
-  
-  ```
-  date --set "6 nov 2022 09:00:00"
-  ```
+- testing hari kerja 
+  - dilakukan dengan menset jam dan mengganti dengan jam kerja
+
+	```
+	date --set "14 nov 2022 09:00:00"
+	```
+	- mencoba koneksi dengan
+	```
+	wget google.com
+	```
+	- koneksi di tolak dan menampilkan hasil sebagai berikut
+	![gambar2.1.1](image/2.1.1.png)
+- testing non hari kerja 
+  - dilakukan dengan menset jam dan mengganti dengan jam kerja
+
+	```
+	date --set "6 nov 2022 18:00:00"
+	```
+	- mencoba koneksi dengan
+	```
+	wget google.com
+	```
+	- koneksi di tolak dan menampilkan hasil sebagai berikut
+	![gambar2.1.2](image/2.1.2.png)
+
+### Nomer 2 ###
+Adapun pada hari dan jam kerja sesuai nomor (1), client hanya dapat mengakses domain loid-work.com dan franky-work.com (IP tujuan domain dibebaskan)
+
+**jawab :**
+
+### Nomer 3 ###
+Saat akses internet dibuka, client dilarang untuk mengakses web tanpa HTTPS. (Contoh web HTTP: http://example.com)
+
+**jawab :**
+
+### Nomer 4 ###
+Agar menghemat penggunaan, akses internet dibatasi dengan kecepatan maksimum 128 Kbps pada setiap host (Kbps = kilobit per second; lakukan pengecekan pada tiap host, ketika 2 host akses internet pada saat bersamaan, keduanya mendapatkan speed maksimal yaitu 128 Kbps)
+
+**jawab :**
+
+### Nomer 5 ###
+Setelah diterapkan, ternyata peraturan nomor (4) mengganggu produktifitas saat hari kerja, dengan demikian pembatasan kecepatan hanya diberlakukan untuk pengaksesan internet pada hari libur
