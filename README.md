@@ -113,14 +113,14 @@ Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.10 - [prefix
 
 **Jawab :**
 
-#### (Clietn) SSS,Garden,KemonoPark,NewstonCastle ####
+#### (Client) SSS,Garden,KemonoPark,NewstonCastle ####
 network configuration
 
 ```
 auto eth0
 iface eth0 inet dhcp
 ```
-#### (Clietn) Eden ####
+#### (Client) Eden ####
 network configuration
 
 ```
@@ -129,7 +129,7 @@ iface eth0 inet dhcp
 hwaddress ether 12:41:bf:96:4f:d3
 ```
 Westalis
-kemudian tambahkan `INTERFACES=\"eth0\"` padan `/etc/default/isc-dhcp-server`
+kemudian tambahkan `INTERFACES=\"eth0\"` pada `/etc/default/isc-dhcp-server`
 lalu tambahkan juga
 ```
 subnet 192.176.1.0 netmask 255.255.255.0 {
