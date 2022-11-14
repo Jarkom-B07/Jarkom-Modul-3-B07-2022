@@ -383,10 +383,10 @@ service bind9 restart
 	loid-work.com
 	franky-work.com
 	```
-- edit file /etc/squid/acl.conf dengan cara
+- edit file /etc/squid/squid.conf dengan cara
   
     ```
-	nano /etc/squid/acl.conf
+	nano /etc/squid/squid.conf
 	```
 - manambhakan isi file dengan
 	```
