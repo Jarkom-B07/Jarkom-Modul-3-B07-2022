@@ -274,7 +274,7 @@ Pada node Berlint lakukan perintah sebagai berikut :
 - edit file /etc/squid/acl.conf dengan cara
   
     ```
-	/etc/squid/squid.conf
+	nano /etc/squid/squid.conf
 	```
 - manambhakan isi file dengan
 	```
