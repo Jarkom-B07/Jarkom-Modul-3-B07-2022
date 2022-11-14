@@ -491,3 +491,20 @@ Agar menghemat penggunaan, akses internet dibatasi dengan kecepatan maksimum 128
 
 ### Nomer 5 ###
 Setelah diterapkan, ternyata peraturan nomor (4) mengganggu produktifitas saat hari kerja, dengan demikian pembatasan kecepatan hanya diberlakukan untuk pengaksesan internet pada hari libur
+
+**Jawab:**
+- edit file /etc/squid/acl.conf dengan cara
+  
+    ```
+	nano /etc/squid/acl.conf
+	```
+- manambhakan isi file dengan
+	```
+	.....
+	http_access allow !WORKSITES !AVAILABLE_WORKING
+	http_access allow WORKSITES AVAILABLE_WORKING
+	.....
+
+
+## Kendala ##
+- tidak ada
