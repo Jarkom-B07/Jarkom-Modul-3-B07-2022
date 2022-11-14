@@ -223,7 +223,7 @@ Pada node Wesalis lakukan perintah sebagai berikut :
 		}
 	```
 
-### Nomer 8 ###
+### Nomer 7 ###
 Loid dan Franky berencana menjadikan Eden sebagai server untuk pertukaran informasi dengan alamat IP yang tetap dengan IP [prefix IP].3.13
 
 **Jawab :**
@@ -281,10 +281,6 @@ Pada node Berlint lakukan perintah sebagai berikut :
 	include etc/squid/acl.conf
 	http_port 8080
 	visible_hostname Berlint
-	acl SSL_ports port 443
-	acl WORKSITES dstdomain /etc/squid/access.acl
-	http_access deny !SSL_ports
-	http_access allow WORKSITES
 	http_access allow AVAILABLE_WORKING
 	http_access deny all
 	```
@@ -306,16 +302,16 @@ untuk melakukan validasi kode dilakukan lstesting
 	- koneksi di tolak dan menampilkan hasil sebagai berikut
 	![gambar2.1.1](image/2.1.1.png)
 - testing non hari kerja 
-  - dilakukan dengan menset jam dan mengganti dengan jam kerja
+  - dilakukan dengan menset jam dan mengganti dengan bukan jam kerja
 
 	```
 	date --set "6 nov 2022 18:00:00"
 	```
 	- mencoba koneksi dengan
 	```
-	wget google.com
+	lynx http://its.ac.id
 	```
-	- koneksi di tolak dan menampilkan hasil sebagai berikut
+	- koneksi diterima dan menampilkan hasil sebagai berikut
 	![gambar2.1.2](image/2.1.2.png)
 
 ### Nomer 2 ###
