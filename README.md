@@ -373,10 +373,10 @@ $TTL    604800
 ' > /etc/bind/jarkom3/franky-work.com
 service bind9 restart
 ```
-- buat file /etc/squid/access.conf dengan cara (berlint)
+- buat file /etc/squid/access.acl dengan cara (berlint)
   
     ```
-	nano /etc/squid/access.conf
+	nano /etc/squid/access.acl
 	```
 - manambahkan isi file dengan
 	```
