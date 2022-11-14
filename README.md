@@ -378,21 +378,116 @@ service bind9 restart
     ```
 	nano /etc/squid/access.conf
 	```
-- manambhakan isi file dengan
+- manambahkan isi file dengan
 	```
 	loid-work.com
 	franky-work.com
 	```
+- edit file /etc/squid/acl.conf dengan cara
+  
+    ```
+	nano /etc/squid/acl.conf
+	```
+- manambhakan isi file dengan
+	```
+	.....
+	acl WORKSITES dstdomain "/etc/squid/access.acl"
+	http_access allow WORKSITES
+	.....
+	```
 
+untuk melakukan validasi kode dilakukan testing
+- testing hari kerja 
+  - dilakukan dengan menset jam dan mengganti dengan jam kerja
+
+	```
+	date --set "14 nov 2022 09:00:00"
+	```
+	- mencoba koneksi dengan
+	```
+	lynx loid-work.com
+	```
+	- koneksi diterima namun menampilan respon berikut karena site belum di availible
+	![gambar3.1.1](image/3.1.1.png)
+- testing non hari kerja 
+  - dilakukan dengan menset jam dan mengganti dengan bukan jam kerja
+
+	```
+	date --set "6 nov 2022 18:00:00"
+	```
+	- mencoba koneksi dengan
+	```
+	lynx loid-work.com
+	```
+	- koneksi ditolak dan menampilkan hasil sebagai berikut
+	![gambar3.1.2](image/3.1.2.png)
 ### Nomer 3 ###
 Saat akses internet dibuka, client dilarang untuk mengakses web tanpa HTTPS. (Contoh web HTTP: http://example.com)
 
 **jawab :**
 
+#### Berlint ####
+- edit file /etc/squid/acl.conf dengan cara
+  
+    ```
+	nano /etc/squid/acl.conf
+	```
+- manambhakan isi file dengan
+	```
+	.....
+	acl SSL_ports port 443
+	http_access deny !SSL_ports
+	.....
+untuk melakukan validasi kode dilakukan testing
+- Lakukan dengan HTTP
+	- mencoba koneksi dengan
+	```
+	lynx http://its.ac.id
+	```
+	- koneksi ditolak karena bukan HTTPS
+	![gambar3.1.3](image/3.1.3.png)
+- Lakukan dengan HTTPS
+- mencoba koneksi dengan
+	```
+	lynx https://its.ac.id
+	```
+	- koneksi diterima karena HTTPS
+	![gambar3.1.4](image/3.1.4.png)
+
 ### Nomer 4 ###
 Agar menghemat penggunaan, akses internet dibatasi dengan kecepatan maksimum 128 Kbps pada setiap host (Kbps = kilobit per second; lakukan pengecekan pada tiap host, ketika 2 host akses internet pada saat bersamaan, keduanya mendapatkan speed maksimal yaitu 128 Kbps)
 
+
 **jawab :**
+
+- buat file /etc/squid/acl.conf dengan cara
+  
+    ```
+	nano /etc/squid/acl-bandwidth.conf
+	```
+- manambhakan isi file dengan
+	```
+	.....
+	delay_pools 1
+	delay_class 1 1
+	delay_access 1 allow all
+	delay_parameters 1 16000/16000
+	.....
+- edit file /etc/squid/acl.conf dengan cara
+  
+    ```
+	nano /etc/squid/acl.conf
+	```
+- manambhakan isi file dengan
+	```
+	.....
+	include /etc/squid/acl-bandwidth.conf
+	.....
+- Lakukan test
+	- Dengan pembatasan speed
+		![gambar4.1.1](image/4.1.1.png)
+	- Tanpa pembatasan speed
+		![gambar4.1.2](image/4.1.2.png)
 
 ### Nomer 5 ###
 Setelah diterapkan, ternyata peraturan nomor (4) mengganggu produktifitas saat hari kerja, dengan demikian pembatasan kecepatan hanya diberlakukan untuk pengaksesan internet pada hari libur
