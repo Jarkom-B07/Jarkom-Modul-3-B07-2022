@@ -312,7 +312,7 @@ untuk melakukan validasi kode dilakukan lstesting
 	lynx http://its.ac.id
 	```
 	- koneksi diterima dan menampilkan hasil sebagai berikut
-	![gambar2.1.2](image/2.1.2.png)
+	![gambar2.1.2](image/rev2.1.2.png)
 
 ### Nomer 2 ###
 Adapun pada hari dan jam kerja sesuai nomor (1), client hanya dapat mengakses domain loid-work.com dan franky-work.com (IP tujuan domain dibebaskan)
