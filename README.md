@@ -288,7 +288,11 @@ Pada node Berlint lakukan perintah sebagai berikut :
   ```
   service squid restart
   ```
-untuk melakukan validasi kode dilakukan lstesting
+- jangan lupa export http pada client dengan cara
+  ```
+  export http_proxy="http://192.176.2.3:8080"
+  ```
+untuk melakukan validasi kode dilakukan testing
 - testing hari kerja 
   - dilakukan dengan menset jam dan mengganti dengan jam kerja
 
@@ -318,6 +322,67 @@ untuk melakukan validasi kode dilakukan lstesting
 Adapun pada hari dan jam kerja sesuai nomor (1), client hanya dapat mengakses domain loid-work.com dan franky-work.com (IP tujuan domain dibebaskan)
 
 **jawab :**
+
+- Buat domain pada wise berikut scriptnya
+```
+mkdir /etc/bind/jarkom3
+echo '
+zone "loid-work.com" {
+        type master;
+        file "/etc/bind/jarkom3/loid-work.com";
+};' > /etc/bind/named.conf.local
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     loid-work.com. root.loid-work.com. (
+                        2022110901      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      loid-work.com.
+@       IN      A       192.176.2.2
+@     IN      AAAA   ::1
+' > /etc/bind/jarkom3/loid-work.com
+
+echo '
+zone "franky-work.com" {
+        type master;
+        file "/etc/bind/jarkom3/franky-work.com";
+};' >>/etc/bind/named.conf.local
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky-work.com. root.franky-work.com. (
+                        2022110901      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      franky-work.com.
+@       IN      A       192.176.2.2
+@     IN      AAAA   ::1
+' > /etc/bind/jarkom3/franky-work.com
+service bind9 restart
+```
+- buat file /etc/squid/access.conf dengan cara (berlint)
+  
+    ```
+	nano /etc/squid/access.conf
+	```
+- manambhakan isi file dengan
+	```
+	loid-work.com
+	franky-work.com
+	```
 
 ### Nomer 3 ###
 Saat akses internet dibuka, client dilarang untuk mengakses web tanpa HTTPS. (Contoh web HTTP: http://example.com)
