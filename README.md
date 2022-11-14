@@ -390,14 +390,13 @@ service bind9 restart
 	```
 - ganti isi file dengan
 	```
-	.....
+	include /etc/squid/acl.conf
 	http_port 8080
 	acl WORKSITES dstdomain "/etc/squid/access.acl"
 	http_access allow WORKSITES
 	http_access allow jam_kerja
 	http_access deny all
 	visible_hostname Berlint
-	.....
 	```
 
 untuk melakukan validasi kode dilakukan testing
