@@ -407,7 +407,7 @@ untuk melakukan validasi kode dilakukan testing
 	```
 	lynx loid-work.com
 	```
-	- koneksi diterima namun menampilan respon berikut karena site belum di availible
+	- koneksi diterima namun menampilan respon berikut karena site belum di available
 	![gambar3.1.1](image/3.1.1.png)
 - testing non hari kerja 
   - dilakukan dengan menset jam dan mengganti dengan bukan jam kerja
