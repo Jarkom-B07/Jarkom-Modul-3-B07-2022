@@ -388,11 +388,15 @@ service bind9 restart
     ```
 	nano /etc/squid/squid.conf
 	```
-- manambhakan isi file dengan
+- ganti isi file dengan
 	```
 	.....
+	http_port 8080
 	acl WORKSITES dstdomain "/etc/squid/access.acl"
 	http_access allow WORKSITES
+	http_access allow jam_kerja
+	http_access deny all
+	visible_hostname Berlint
 	.....
 	```
 
